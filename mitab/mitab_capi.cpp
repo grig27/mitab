@@ -236,6 +236,10 @@
 
 #include "mitab.h"
 #include "mitab_capi.h"
+//#pragma comment(lib, "user32.lib")
+//#define WIN32_DEFAULT_LIBS
+//#include <windows.h>
+
 
 static int _mitab_c_get_feature_info( mitab_feature feature, int what_info, 
                                       int *part, int *point, double *vertex );
@@ -639,7 +643,6 @@ mitab_c_add_field( mitab_handle dataset, const char *field_name,
 
 {
     IMapInfoFile        *poFile = (IMapInfoFile *) dataset;
-
     if( poFile->AddFieldNative( field_name, (TABFieldType) field_type,
                                 width, precision, indexed, unique ) != -1 )
     {

@@ -59,7 +59,7 @@ tabindex.exe:	tabindex.cpp $(LIBS)
 	$(CC) $(CFLAGS) tabindex.cpp $(LIBS)
 
 $(MITAB_DLL): $(LIBS) $(TAB_OBJS)
-	link /dll /out:$(MITAB_DLL) /implib:mitab_i.lib  $(TAB_OBJS) $(LIBS)
+	link /dll /out:$(MITAB_DLL) /implib:mitab_i.lib  $(TAB_OBJS) $(LIBS) /DEBUG
 
 clean:  
 	del *.obj
