@@ -31,3 +31,7 @@ cmake_install.cmake
 
 # Backups
 *.vcxproj.bak
+
+# Local editor workspace with absolute paths
+mitab.code-workspace
+

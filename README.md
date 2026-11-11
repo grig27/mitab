@@ -60,4 +60,4 @@ Fixes ported from the GDAL MapInfo driver are tracked in `docs/gdal-migration/PR
 
 ## License
 
-The library is distributed under the MIT-style license in `README.TXT`.
+The MIT-style license is in `LICENSE` and `README.TXT`. `NOTICE` has the separate terms for `ogr/swq.c`, `ogr/swq.h`, and `cpl/cpl_recode_stub.cpp`, and lists the GDAL MapInfo commits ported into this tree. Each source file keeps its own copyright header. `contrib/dotnet/MiApi.cs`, `contrib/dotnet/MiWrapper.cs`, and `ogr/ogr_srs_esri_names.h` do not contain the `LICENSE` permission notice.
