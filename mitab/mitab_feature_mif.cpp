@@ -1084,6 +1084,8 @@ int TABRegion::ReadGeometryFromMIFFile(MIDDATAFile *fp)
             }   
         }
 
+        poRing->closeRings();
+
         tabPolygons[iSection]->addRingDirectly(poRing);
 
         if (numLineSections == 1)
@@ -1260,7 +1262,14 @@ int TABRectangle::ReadGeometryFromMIFFile(MIDDATAFile *fp)
     OGRPolygon          *poPolygon;
     OGRLinearRing       *poRing;
 
-    papszToken = CSLTokenizeString2(fp->GetLastLine(), 
+    /* GetLastLine() is NULL once GetLine() has already hit EOF.
+     * CSLTokenizeString2(NULL) dereferences the string in this CPL.
+     */
+    const char *pszRectLine = fp->GetLastLine();
+    if (pszRectLine == NULL)
+        return -1;
+
+    papszToken = CSLTokenizeString2(pszRectLine, 
                                     " \t", CSLT_HONOURSTRINGS);
 
     if (CSLCount(papszToken) <  5)
@@ -1293,10 +1302,16 @@ int TABRectangle::ReadGeometryFromMIFFile(MIDDATAFile *fp)
         else
         {
             CSLDestroy(papszToken);
-            papszToken = CSLTokenizeString2(fp->GetLine(), 
-                                            " \t", CSLT_HONOURSTRINGS);
-            if (CSLCount(papszToken) !=1 )
-              m_dRoundXRadius = m_dRoundYRadius = atof(papszToken[1])/2.0;
+            papszToken = NULL;
+            /* Same NULL rule as above: a missing radius line is EOF, not "". */
+            const char *pszRadiusLine = fp->GetLine();
+            if (pszRadiusLine != NULL)
+            {
+                papszToken = CSLTokenizeString2(pszRadiusLine,
+                                                " \t", CSLT_HONOURSTRINGS);
+                if (CSLCount(papszToken) == 1)
+                  m_dRoundXRadius = m_dRoundYRadius = atof(papszToken[0])/2.0;
+            }
         }
     }
     CSLDestroy(papszToken);
